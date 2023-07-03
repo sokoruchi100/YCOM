@@ -12,7 +12,7 @@ public class UnitSelectedVisual : MonoBehaviour
     }
 
     private void Start() {
-        UnitActionSystem.Instance.OnSelectedEventChanged += Instance_OnSelectedEventChanged;
+        UnitActionSystem.Instance.OnSelectedUnitEventChanged += Instance_OnSelectedEventChanged;
         UpdateVisuals();
     }
 
@@ -26,5 +26,9 @@ public class UnitSelectedVisual : MonoBehaviour
         } else {
             meshRenderer.enabled = false;
         }
+    }
+
+    private void OnDestroy() {
+        UnitActionSystem.Instance.OnSelectedUnitEventChanged -= Instance_OnSelectedEventChanged;
     }
 }

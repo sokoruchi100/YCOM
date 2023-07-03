@@ -13,15 +13,13 @@ public class SpinAction : BaseAction
         transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
         spinProgress += spinAddAmount;
         if (spinProgress >= 360) {
-            isActive = false;
-            OnActionCompleted();
+            ActionComplete();
         }
     }
 
     public override void TakeAction(GridPosition gridPosition, Action OnActionCompleted) {
-        this.OnActionCompleted = OnActionCompleted;
+        ActionStart(OnActionCompleted);
         spinProgress = 0;
-        isActive = true;
     }
 
     public override string GetActionName() {
@@ -32,5 +30,9 @@ public class SpinAction : BaseAction
         GridPosition currentGridPosition = unit.GetGridPosition();
 
         return new List<GridPosition> { currentGridPosition };
+    }
+
+    public override int GetActionPointsCost() {
+        return 2;
     }
 }

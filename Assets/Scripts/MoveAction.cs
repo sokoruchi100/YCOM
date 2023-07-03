@@ -6,8 +6,11 @@ using UnityEngine.EventSystems;
 
 public class MoveAction : BaseAction
 {
-    [SerializeField] private Animator unitAnimator;
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+    
     [SerializeField] private int maxMoveGrid = 4;
+    
     private Vector3 targetPosition;
 
     protected override void Awake() {
@@ -23,12 +26,9 @@ public class MoveAction : BaseAction
 
             float moveSpeed = 4;
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-            unitAnimator.SetBool("IsWalking", true);
         } else {
-            unitAnimator.SetBool("IsWalking", false);
-            isActive = false;
-            OnActionCompleted();
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+            ActionComplete();
         }
 
         float rotateSpeed = 10;
@@ -36,9 +36,9 @@ public class MoveAction : BaseAction
     }
 
     public override void TakeAction(GridPosition gridPosition, Action OnActionCompleted) {
-        this.OnActionCompleted = OnActionCompleted;
-        isActive = true;
-        this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+        ActionStart(OnActionCompleted);
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
+        targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
     }
 
     public override List<GridPosition> GetValidGridPositionList() {
@@ -51,6 +51,10 @@ public class MoveAction : BaseAction
                 GridPosition newGridPosition = currentGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
+
+                float testDistance = Mathf.Sqrt(x * x + z * z);
+                if (testDistance > maxMoveGrid) { continue; }
+
                 if (newGridPosition == currentGridPosition) { continue; }
                 if (LevelGrid.Instance.HasAnyUnitOnGridPosition(newGridPosition)) { continue; }
 

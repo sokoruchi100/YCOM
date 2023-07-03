@@ -36,4 +36,11 @@ public class GridObject {
     public bool HasAnyUnit() {
         return unitList.Count > 0;
     }
+    public Unit GetUnitInGrid() {
+        if (unitList.Count > 0) {
+            return unitList[0];
+        } else {
+            return null;
+        }
+    }
 }
