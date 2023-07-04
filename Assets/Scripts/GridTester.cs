@@ -8,7 +8,7 @@ public class GridTester : MonoBehaviour
     private void Update() {
         if (Input.GetKeyDown(KeyCode.T)) {
             GridSystemVisual.Instance.HideAllGridPositions();
-            GridSystemVisual.Instance.ShowGridPositions(unit.GetMoveAction().GetValidGridPositionList());
+            //GridSystemVisual.Instance.ShowGridPositions(unit.GetMoveAction().GetValidGridPositionList());
         }
     }
 }

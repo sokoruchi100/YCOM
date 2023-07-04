@@ -37,6 +37,6 @@ public class TurnSystemUI : MonoBehaviour
     }
 
     private void UpdateEndTurnButtonVisibility() {
-        enemyTurnVisual.SetActive(TurnSystem.Instance.IsPlayerTurn());
+        endTurnButton.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
     }
 }

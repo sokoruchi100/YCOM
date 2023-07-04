@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6339852523774880649
+--- !u!1001 &681838518518900135
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,78 +8,67 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 845529424568267257, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
-        type: 3}
-      propertyPath: isEnemy
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3798442490243930757, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
-        type: 3}
-      propertyPath: unitRagdollPrefab
-      value: 
-      objectReference: {fileID: 4384205504603318869, guid: cf27ef4fe8a4504428a433e75f05aeba,
-        type: 3}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3864566942565011442, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 3864566942565011442, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7113786862639613895, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 7113786862639613895, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_Name
-      value: UnitEnemy
+      value: UnitEnemyRagdoll
       objectReference: {fileID: 0}
-    - target: {fileID: 7984264410474082207, guid: 76dfa1b85726e8344a8a1a74fdd80f13,
+    - target: {fileID: 7984264410474082207, guid: cccf219d94dc82c4fa250731d0883888,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -88,4 +77,4 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 76dfa1b85726e8344a8a1a74fdd80f13, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: cccf219d94dc82c4fa250731d0883888, type: 3}
