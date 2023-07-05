@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private const int ACTION_POINTS_MAX = 2;
+    private const int ACTION_POINTS_MAX = 10;
 
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
@@ -19,13 +19,13 @@ public class Unit : MonoBehaviour
     private int actionPoints = ACTION_POINTS_MAX;
 
     private void Awake() {
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         baseActionArray = GetComponents<BaseAction>();
         healthSystem = GetComponent<HealthSystem>();
     }
 
     private void Start() {
-        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         TurnSystem.Instance.OnTurnChanged += Instance_OnTurnChanged;
         healthSystem.OnDead += HealthSystem_OnDead;
         OnAnyUnitSpawned?.Invoke(this, EventArgs.Empty);

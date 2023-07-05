@@ -5,20 +5,24 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ShootAction : BaseAction {
+
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
     public event EventHandler<OnShootEventArgs> OnShoot;
     public class OnShootEventArgs : EventArgs {
         public Unit targetUnit;
         public Unit shootingUnit;
     }
 
-    [SerializeField] private int maxShootRange = 7;
     private enum State {
         Aiming,
         Shooting,
         Cooloff
     }
 
+    [SerializeField] private int maxShootRange = 7;
     [SerializeField] private int damageAmount = 40;
+    [SerializeField] private LayerMask obstaclesLayerMask;
+
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -52,6 +56,10 @@ public class ShootAction : BaseAction {
 
     private void Shoot() {
         targetUnit.Damage(damageAmount);
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
         OnShoot?.Invoke(this, new OnShootEventArgs { 
             targetUnit = targetUnit,
             shootingUnit = unit
@@ -100,6 +108,15 @@ public class ShootAction : BaseAction {
 
                 Unit otherUnit = LevelGrid.Instance.GetUnitAtGridPosition(newGridPosition);
                 if (otherUnit.IsEnemy() == unit.IsEnemy()) { continue; }
+
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                Vector3 shootDir = (otherUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                float unitShoulderHeight = 1.7f;
+                if (Physics.Raycast(
+                    unitWorldPosition + Vector3.up * unitShoulderHeight,
+                    shootDir,
+                    Vector3.Distance(unitWorldPosition, otherUnit.GetWorldPosition()),
+                    obstaclesLayerMask)) { continue; }
 
                 validGridPositionList.Add(newGridPosition);
             }

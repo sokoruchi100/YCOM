@@ -105,7 +105,6 @@ public class GridSystemVisual : MonoBehaviour
                 return gridVisualTypeMaterial.material;
             }
         }
-        Debug.Log("Should not occur");
         return null;
     }
 

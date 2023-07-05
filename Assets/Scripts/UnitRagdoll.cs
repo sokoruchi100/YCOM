@@ -8,7 +8,9 @@ public class UnitRagdoll : MonoBehaviour
 
     public void Setup(Transform originalRootBone) {
         MatchAllChildTransforms(originalRootBone, rootBone);
-        ApplyExplosionToRagdoll(rootBone, 300, transform.position, 10);
+
+        Vector3 randomDir = new Vector3(Random.Range(-1f, +1f), 0, Random.Range(-1f,+1f));
+        ApplyExplosionToRagdoll(rootBone, 300, transform.position + randomDir, 10);
     }
 
     private void MatchAllChildTransforms(Transform originalRootBone, Transform cloneRootBone) {
