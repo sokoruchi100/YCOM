@@ -94,6 +94,16 @@ public class GridSystemVisual : MonoBehaviour
                 gridVisualType = GridVisualType.Red;
                 ShowGridPositionRange(selectedUnit.GetGridPosition(), shootAction.GetMaxShootRange(), GridVisualType.RedSoft);
                 break;
+            case GrenadeAction grenadeAction:
+                gridVisualType = GridVisualType.Yellow;
+                break;
+            case KnifeAction knifeAction:
+                gridVisualType = GridVisualType.Red;
+                ShowGridPositionRangeSquare(selectedUnit.GetGridPosition(), knifeAction.GetMaxKnifeRange(), GridVisualType.RedSoft);
+                break;
+            case InteractAction interactAction:
+                gridVisualType = GridVisualType.Blue;
+                break;
         }
 
         ShowGridPositions(selectedAction.GetValidGridPositionList(), gridVisualType);
@@ -106,6 +116,22 @@ public class GridSystemVisual : MonoBehaviour
             }
         }
         return null;
+    }
+
+    private void ShowGridPositionRangeSquare(GridPosition gridPosition, int range, GridVisualType gridVisual) {
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
+
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition newGridPosition = gridPosition + offsetGridPosition;
+
+                if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
+
+                validGridPositionList.Add(newGridPosition);
+            }
+        }
+        ShowGridPositions(validGridPositionList, gridVisual);
     }
 
     private void ShowGridPositionRange(GridPosition gridPosition, int range, GridVisualType gridVisual) {

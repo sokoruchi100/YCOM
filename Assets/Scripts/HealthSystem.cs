@@ -22,6 +22,9 @@ public class HealthSystem : MonoBehaviour
             Die();
         }
     }
+    public void Heal(int healAmount) {
+        health = Mathf.Min(health + healAmount, healthMax);
+    }
 
     private void Die() {
         OnDead?.Invoke(this, EventArgs.Empty);

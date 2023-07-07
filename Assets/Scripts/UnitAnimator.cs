@@ -7,8 +7,10 @@ public class UnitAnimator : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Transform bulletProjectilePrefab;
     [SerializeField] private Transform shootPointTransform;
+    [SerializeField] private Transform rifleTransform;
+    [SerializeField] private Transform knifeTransform;
 
-    private void Start() {
+    private void Awake() {
         if (TryGetComponent<MoveAction>(out MoveAction moveAction)) {
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
@@ -16,6 +18,23 @@ public class UnitAnimator : MonoBehaviour
         if (TryGetComponent<ShootAction>(out ShootAction shootAction)) {
             shootAction.OnShoot += ShootAction_OnShoot;
         }
+        if (TryGetComponent<KnifeAction>(out KnifeAction knifeAction)) {
+            knifeAction.OnKnifeActionStarted += KnifeAction_OnKnifeActionStarted;
+            knifeAction.OnKnifeActionCompleted += KnifeAction_OnKnifeActionCompleted;
+        }
+    }
+
+    private void Start() {
+        EquipRifle();
+    }
+
+    private void KnifeAction_OnKnifeActionCompleted(object sender, System.EventArgs e) {
+        EquipRifle();
+    }
+
+    private void KnifeAction_OnKnifeActionStarted(object sender, System.EventArgs e) {
+        EquipKnife();
+        animator.SetTrigger("KnifeStab");
     }
 
     private void ShootAction_OnShoot(object sender, ShootAction.OnShootEventArgs e) {
@@ -36,5 +55,14 @@ public class UnitAnimator : MonoBehaviour
 
     private void MoveAction_OnStartMoving(object sender, System.EventArgs e) {
         animator.SetBool("IsWalking", true);
+    }
+
+    private void EquipKnife() {
+        knifeTransform.gameObject.SetActive(true);
+        rifleTransform.gameObject.SetActive(false);
+    }
+    private void EquipRifle() {
+        knifeTransform.gameObject.SetActive(false);
+        rifleTransform.gameObject.SetActive(true);
     }
 }

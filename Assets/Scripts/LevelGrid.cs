@@ -64,4 +64,6 @@ public class LevelGrid : MonoBehaviour
     public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
     public int GetWidth() => gridSystem.GetWidth();
     public int GetHeight() => gridSystem.GetHeight();
+    public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition) { return gridSystem.GetGridObject(gridPosition).GetInteractable(); }
+    public void SetInteractableAtGridPosition(GridPosition gridPosition, IInteractable interactable) { gridSystem.GetGridObject(gridPosition).SetInteractable(interactable); }
 }

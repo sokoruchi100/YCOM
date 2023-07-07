@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    private const int ACTION_POINTS_MAX = 10;
+    private const int ACTION_POINTS_MAX = 5;
 
     public static event EventHandler OnAnyActionPointsChanged;
     public static event EventHandler OnAnyUnitSpawned;
@@ -101,4 +101,7 @@ public class Unit : MonoBehaviour
         healthSystem.Damage(damageAmount);
     }
     public float GetNormalizedHealth() { return healthSystem.GetNormalizedHealth(); }
+    public HealthSystem GetHealthSystem() {
+        return healthSystem;
+    }
 }

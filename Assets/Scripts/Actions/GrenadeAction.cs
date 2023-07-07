@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GrenadeAction : BaseAction {
-    [SerializeField] private int maxThrowRange = 6;
+    [SerializeField] private int maxThrowRange = 5;
     [SerializeField] private int grenadeDamage = 60;
     [SerializeField] private Transform grenadeProjectilePrefab;
+    [SerializeField] private LayerMask obstaclesLayerMask;
 
     private void Update() {
         if (!isActive) {
@@ -32,6 +33,18 @@ public class GrenadeAction : BaseAction {
 
                 float testDistance = Mathf.Sqrt(x * x + z * z);
                 if (testDistance > maxThrowRange) { continue; }
+                
+                if (newGridPosition == unitGridPosition) { continue; }
+
+                Vector3 unitWorldPosition = unit.GetWorldPosition();
+                Vector3 targetWorldPosition = LevelGrid.Instance.GetWorldPosition(newGridPosition);
+                Vector3 throwDir = (targetWorldPosition - unitWorldPosition).normalized;
+                float unitShoulderHeight = 1.7f;
+                if (Physics.Raycast(
+                    unitWorldPosition + Vector3.up * unitShoulderHeight,
+                    throwDir,
+                    Vector3.Distance(unitWorldPosition, targetWorldPosition),
+                    obstaclesLayerMask)) { continue; }
 
                 validGridPositionList.Add(newGridPosition);
             }
@@ -56,5 +69,8 @@ public class GrenadeAction : BaseAction {
 
     private void OnGrenadeBehaviourComplete() {
         ActionComplete();
+    }
+    public override int GetActionPointsCost() {
+        return 3;
     }
 }

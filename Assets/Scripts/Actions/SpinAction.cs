@@ -6,13 +6,15 @@ using UnityEngine;
 public class SpinAction : BaseAction
 {
     private float spinProgress;
-    
+    [SerializeField] private int healAmount = 40;
+
     private void Update() {
         if (!isActive) { return; }
         float spinAddAmount = 360 * Time.deltaTime;
         transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
         spinProgress += spinAddAmount;
         if (spinProgress >= 360) {
+            unit.GetHealthSystem().Heal(healAmount);
             ActionComplete();
         }
     }
@@ -23,17 +25,17 @@ public class SpinAction : BaseAction
     }
 
     public override string GetActionName() {
-        return "Spin";
+        return "Heal";
     }
 
     public override List<GridPosition> GetValidGridPositionList() {
         GridPosition currentGridPosition = unit.GetGridPosition();
-
-        return new List<GridPosition> { currentGridPosition };
+        if (unit.GetNormalizedHealth() == 1) { return new List<GridPosition>(); } else { return new List<GridPosition> { currentGridPosition }; }
+        
     }
 
     public override int GetActionPointsCost() {
-        return 1;
+        return 2;
     }
 
     protected override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) {

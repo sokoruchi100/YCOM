@@ -19,7 +19,7 @@ public class ShootAction : BaseAction {
         Cooloff
     }
 
-    [SerializeField] private int maxShootRange = 7;
+    [SerializeField] private int maxShootRange = 8;
     [SerializeField] private int damageAmount = 40;
     [SerializeField] private LayerMask obstaclesLayerMask;
 
@@ -150,5 +150,9 @@ public class ShootAction : BaseAction {
 
     public int GetTargetCountAtPosition(GridPosition gridPosition) {
         return GetValidGridPositionList(gridPosition).Count;
+    }
+
+    public override int GetActionPointsCost() {
+        return 2;
     }
 }
