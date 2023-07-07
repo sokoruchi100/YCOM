@@ -9,7 +9,7 @@ public class GridSystemVisual : MonoBehaviour
     public static GridSystemVisual Instance { get; private set; }
     [SerializeField] private Transform gridSystemVisualPrefab;
     [SerializeField] private List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
-    private GridSystemVisualSingle[,] gridSystemVisualSingles;
+    private GridSystemVisualSingle[,] gridSystemVisualSingleArray;
 
     public enum GridVisualType { 
         White,
@@ -34,20 +34,21 @@ public class GridSystemVisual : MonoBehaviour
     }
 
     private void Start() {
-        gridSystemVisualSingles = new GridSystemVisualSingle[LevelGrid.Instance.GetWidth(), LevelGrid.Instance.GetHeight()];
-        
+        gridSystemVisualSingleArray = new GridSystemVisualSingle[LevelGrid.Instance.GetWidth(), LevelGrid.Instance.GetHeight()];
+
         for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++) {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++) {
                 GridPosition gridPosition = new GridPosition(x, z);
                 Transform gridSystemVisualSingle = Instantiate(gridSystemVisualPrefab, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
-                gridSystemVisualSingles[x, z] = gridSystemVisualSingle.GetComponent<GridSystemVisualSingle>();
+                gridSystemVisualSingleArray[x, z] = gridSystemVisualSingle.GetComponent<GridSystemVisualSingle>();
             }
         }
-        HideAllGridPositions();
-        UpdateGridVisual();
+
         UnitActionSystem.Instance.OnSelectedActionEventChanged += Instance_OnSelectedActionEventChanged;
         LevelGrid.Instance.OnAnyUnitMovedGridPosition += Instance_OnAnyUnitMovedGridPosition;
         HealthSystem.OnAnyDead += HealthSystem_OnAnyDead;
+
+        UpdateGridVisual();
     }
 
     private void HealthSystem_OnAnyDead(object sender, EventArgs e) {
@@ -65,14 +66,14 @@ public class GridSystemVisual : MonoBehaviour
     public void HideAllGridPositions() {
         for (int x = 0; x < LevelGrid.Instance.GetWidth(); x++) {
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++) {
-                gridSystemVisualSingles[x, z].Hide();
+                gridSystemVisualSingleArray[x, z].Hide();
             }
         }
     }
 
     public void ShowGridPositions(List<GridPosition> gridPositionList, GridVisualType gridVisual) {
         foreach (GridPosition gridPosition in gridPositionList) {
-            gridSystemVisualSingles[gridPosition.x, gridPosition.z].Show(GetMaterialFromGridVisual(gridVisual));
+            gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show(GetMaterialFromGridVisual(gridVisual));
         }
     }
 
