@@ -769,6 +769,7 @@ GameObject:
   - component: {fileID: 4137121491520027114}
   - component: {fileID: 8147280242022085269}
   - component: {fileID: 4473767513658057512}
+  - component: {fileID: 2824471962261006014}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -866,11 +867,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b57abb55838c2445880396e295d40c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxShootRange: 6
+  maxShootRange: 16
   damageAmount: 40
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
 --- !u!114 &8897757985134412839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -929,13 +930,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08f37437df26995409f334de5bfbd322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxThrowRange: 4
+  maxThrowRange: 8
   grenadeDamage: 60
+  grenadeDamageRange: 2.5
   grenadeProjectilePrefab: {fileID: 5968602758003169652, guid: 5b79edab7d1393f4b8ad67e1609a46da,
     type: 3}
   obstaclesLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 320
 --- !u!114 &8147280242022085269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -948,7 +950,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7219b618a7f760546abdb43b69a80f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxKnifeRange: 1
+  maxKnifeRange: 2
+  knifeDamage: 50
 --- !u!114 &4473767513658057512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,6 +965,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxInteractRange: 1
+--- !u!114 &2824471962261006014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7113786862639613895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cddca1035f112d4494df4992a1e2a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dynamicFloorPosition: 1
+  ignoreRendererList:
+  - {fileID: 4733575212263323109}
 --- !u!1 &8007407982781367955
 GameObject:
   m_ObjectHideFlags: 0

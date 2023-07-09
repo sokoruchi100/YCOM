@@ -16,6 +16,7 @@ public class GrenadeProjectile : MonoBehaviour
     private Action OnGrenadeBehaviourComplete;
     private float totalDistance;
     private Vector3 positionXZ;
+    private float grenadeDamageRange;
 
     private void Update() {
         Vector3 moveDir = (targetPosition - positionXZ).normalized;
@@ -32,7 +33,7 @@ public class GrenadeProjectile : MonoBehaviour
 
         float reachedTargetDistance = 0.2f;
         if (Vector3.Distance(positionXZ, targetPosition) < reachedTargetDistance) {
-            float damageRadius = 3f;
+            float damageRadius = grenadeDamageRange;
             Collider[] colliderArray = Physics.OverlapSphere(targetPosition, damageRadius);
 
             foreach (Collider collider in colliderArray) {
@@ -55,9 +56,10 @@ public class GrenadeProjectile : MonoBehaviour
         }
     }
 
-    public void Setup(GridPosition targetGridPosition, int grenadeDamage, Action OnGrenadeBehaviourComplete) { 
+    public void Setup(GridPosition targetGridPosition, int grenadeDamage, float grenadeDamageRange, Action OnGrenadeBehaviourComplete) { 
         targetPosition = LevelGrid.Instance.GetWorldPosition(targetGridPosition);
         this.grenadeDamage = grenadeDamage;
+        this.grenadeDamageRange = grenadeDamageRange;
         this.OnGrenadeBehaviourComplete = OnGrenadeBehaviourComplete;
         positionXZ = transform.position;
         positionXZ.y = 0;

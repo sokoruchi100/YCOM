@@ -36,6 +36,7 @@ public class ShootAction : BaseAction {
         switch (state) {
             case State.Aiming:
                 Vector3 aimDir = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
+                aimDir.y = 0;
                 float rotateSpeed = 10;
                 transform.forward = Vector3.Slerp(transform.forward, aimDir, Time.deltaTime * rotateSpeed);
                 break;
@@ -95,30 +96,32 @@ public class ShootAction : BaseAction {
 
         for (int x = -maxShootRange; x <= maxShootRange; x++) {
             for (int z = -maxShootRange; z <= maxShootRange; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
-                GridPosition newGridPosition = gridPosition + offsetGridPosition;
+                for (int floor = -maxShootRange; floor <= maxShootRange; floor++) {
+                    GridPosition offsetGridPosition = new GridPosition(x, z, floor);
+                    GridPosition newGridPosition = gridPosition + offsetGridPosition;
 
-                if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
+                    if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
 
-                float testDistance = Mathf.Sqrt(x*x + z*z);
-                if (testDistance > maxShootRange) { continue; }
+                    float testDistance = Vector3.Distance(LevelGrid.Instance.GetWorldPosition(gridPosition), LevelGrid.Instance.GetWorldPosition(newGridPosition));
+                    if (testDistance > maxShootRange) { continue; }
 
-                if (newGridPosition == gridPosition) { continue; }
-                if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(newGridPosition)) { continue; }
+                    if (newGridPosition == gridPosition) { continue; }
+                    if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(newGridPosition)) { continue; }
 
-                Unit otherUnit = LevelGrid.Instance.GetUnitAtGridPosition(newGridPosition);
-                if (otherUnit.IsEnemy() == unit.IsEnemy()) { continue; }
+                    Unit otherUnit = LevelGrid.Instance.GetUnitAtGridPosition(newGridPosition);
+                    if (otherUnit.IsEnemy() == unit.IsEnemy()) { continue; }
 
-                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-                Vector3 shootDir = (otherUnit.GetWorldPosition() - unitWorldPosition).normalized;
-                float unitShoulderHeight = 1.7f;
-                if (Physics.Raycast(
-                    unitWorldPosition + Vector3.up * unitShoulderHeight,
-                    shootDir,
-                    Vector3.Distance(unitWorldPosition, otherUnit.GetWorldPosition()),
-                    obstaclesLayerMask)) { continue; }
+                    Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                    Vector3 shootDir = (otherUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                    float unitShoulderHeight = 1.7f;
+                    if (Physics.Raycast(
+                        unitWorldPosition + Vector3.up * unitShoulderHeight,
+                        shootDir,
+                        Vector3.Distance(unitWorldPosition, otherUnit.GetWorldPosition()),
+                        obstaclesLayerMask)) { continue; }
 
-                validGridPositionList.Add(newGridPosition);
+                    validGridPositionList.Add(newGridPosition);
+                }
             }
         }
         return validGridPositionList;

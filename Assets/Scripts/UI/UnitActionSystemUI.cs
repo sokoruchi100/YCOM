@@ -14,28 +14,14 @@ public class UnitActionSystemUI : MonoBehaviour
         actionButtonList = new List<ActionButtonUI>();
         UnitActionSystem.Instance.OnSelectedUnitEventChanged += Instance_OnSelectedUnitEventChanged;
         UnitActionSystem.Instance.OnSelectedActionEventChanged += Instance_OnSelectedActionEventChanged;
-        UnitActionSystem.Instance.OnActionStarted += Instance_OnActionStarted;
-        TurnSystem.Instance.OnTurnChanged += Instance_OnTurnChanged;
-        Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         CreateUnitActionButton();
         UpdateSelectedVisual();
         UpdateActionPoints();
     }
 
-    private void Unit_OnAnyActionPointsChanged(object sender, System.EventArgs e) {
-        UpdateActionPoints();
-    }
-
-    private void Instance_OnTurnChanged(object sender, System.EventArgs e) {
-        UpdateActionPoints();
-    }
-
-    private void Instance_OnActionStarted(object sender, System.EventArgs e) {
-        UpdateActionPoints();
-    }
-
     private void Instance_OnSelectedActionEventChanged(object sender, System.EventArgs e) {
         UpdateSelectedVisual();
+        UpdateActionPoints();
     }
 
     private void Instance_OnSelectedUnitEventChanged(object sender, System.EventArgs e) {
@@ -66,7 +52,7 @@ public class UnitActionSystemUI : MonoBehaviour
     }
 
     private void UpdateActionPoints() {
-        Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
-        actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
+        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+        actionPointsText.text = "Action Points Cost: " + selectedAction.GetActionPointsCost();
     }
 }

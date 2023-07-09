@@ -6,6 +6,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool isOpen;
+    private BoxCollider boxCollider;
     private GridPosition gridPosition;
     private Animator animator;
     private Action OnInteractionComplete;
@@ -14,6 +15,7 @@ public class Door : MonoBehaviour, IInteractable
 
     private void Awake() {
         animator = GetComponent<Animator>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     private void Start() {
@@ -51,11 +53,13 @@ public class Door : MonoBehaviour, IInteractable
     private void OpenDoor() { 
         isOpen = true;
         animator.SetBool("IsOpen", isOpen);
+        boxCollider.enabled = !isOpen;
         Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, isOpen);
     }
     private void CloseDoor() {
         isOpen = false;
         animator.SetBool("IsOpen", isOpen);
+        boxCollider.enabled = !isOpen;
         Pathfinding.Instance.SetIsWalkableGridPosition(gridPosition, isOpen);
     }
 }

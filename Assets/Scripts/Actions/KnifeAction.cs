@@ -8,7 +8,8 @@ public class KnifeAction : BaseAction {
     public event EventHandler OnKnifeActionStarted;
     public event EventHandler OnKnifeActionCompleted;
 
-    [SerializeField] private int maxKnifeRange = 1;
+    [SerializeField] private int maxKnifeRange = 2;
+    [SerializeField] private int knifeDamage = 40;
 
     private enum State {
         stabbingKnifeBeforeHit,
@@ -43,7 +44,7 @@ public class KnifeAction : BaseAction {
                 state = State.stabbingKnifeAfterHit;
                 float afterHitStateTime = 1.5f;
                 stateTimer = afterHitStateTime;
-                targetUnit.Damage(50);
+                targetUnit.Damage(knifeDamage);
                 OnAnyKnifeHit?.Invoke(this, EventArgs.Empty);
                 break;
             case State.stabbingKnifeAfterHit:
@@ -64,10 +65,13 @@ public class KnifeAction : BaseAction {
 
         for (int x = -maxKnifeRange; x <= maxKnifeRange; x++) {
             for (int z = -maxKnifeRange; z <= maxKnifeRange; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition offsetGridPosition = new GridPosition(x, z,0);
                 GridPosition newGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
+                
+                float testDistance = Vector3.Distance(LevelGrid.Instance.GetWorldPosition(unitGridPosition), LevelGrid.Instance.GetWorldPosition(newGridPosition));
+                if (testDistance > maxKnifeRange) { continue; }
 
                 if (newGridPosition == unitGridPosition) { continue; }
                 if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(newGridPosition)) { continue; }
@@ -101,7 +105,7 @@ public class KnifeAction : BaseAction {
         return maxKnifeRange;
     }
     public override int GetActionPointsCost() {
-        return 1;
+        return 2;
     }
 
 }

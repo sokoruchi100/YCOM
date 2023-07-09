@@ -6,6 +6,7 @@ using UnityEngine;
 public class GrenadeAction : BaseAction {
     [SerializeField] private int maxThrowRange = 5;
     [SerializeField] private int grenadeDamage = 60;
+    [SerializeField] private float grenadeDamageRange = 2.5f;
     [SerializeField] private Transform grenadeProjectilePrefab;
     [SerializeField] private LayerMask obstaclesLayerMask;
 
@@ -26,12 +27,12 @@ public class GrenadeAction : BaseAction {
 
         for (int x = -maxThrowRange; x <= maxThrowRange; x++) {
             for (int z = -maxThrowRange; z <= maxThrowRange; z++) {
-                GridPosition offsetGridPosition = new GridPosition(x, z);
+                GridPosition offsetGridPosition = new GridPosition(x, z,0);
                 GridPosition newGridPosition = unitGridPosition + offsetGridPosition;
 
                 if (!LevelGrid.Instance.IsValidGridPosition(newGridPosition)) { continue; }
 
-                float testDistance = Mathf.Sqrt(x * x + z * z);
+                float testDistance = Vector3.Distance(LevelGrid.Instance.GetWorldPosition(unitGridPosition), LevelGrid.Instance.GetWorldPosition(newGridPosition));
                 if (testDistance > maxThrowRange) { continue; }
                 
                 if (newGridPosition == unitGridPosition) { continue; }
@@ -55,7 +56,7 @@ public class GrenadeAction : BaseAction {
     public override void TakeAction(GridPosition gridPosition, Action OnActionCompleted) {
         Transform grenadeProjectileTransform = Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
         GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-        grenadeProjectile.Setup(gridPosition, grenadeDamage, OnGrenadeBehaviourComplete);
+        grenadeProjectile.Setup(gridPosition, grenadeDamage, grenadeDamageRange, OnGrenadeBehaviourComplete);
 
         ActionStart(OnActionCompleted);
     }
